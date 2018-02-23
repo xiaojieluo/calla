@@ -14,6 +14,9 @@ def parse_args(args):
     args = parser.parse_args(args)
     return args
 
+def init():
+    ''' 初始化工作目录'''
+    pass
 
 def main():
     '''enter'''
@@ -25,6 +28,7 @@ def main():
     app.run(
         port=args.port or config.server_port,
         )
+
 
 if __name__ == '__main__':
     main()
