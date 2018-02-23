@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>llnhhy's Blog</title>
+    <meta name="keywords" content="luoxiaojie blog" />
+    <meta name="description" content="llnhhy's Blog | Web | python | Code | Computer Sciences" />
+    <style type="text/css">
+        .indexcolor,
+        .willerce a {
+            /*color: #ffffff !important;*/
+        }
+    </style>
+    <style type="text/css" id="custom-background-css">
+        body.custom-background {
+            /*background-color: #0a0a0a;*/
+            /*background-image: url("http://www.wpke.net/wp-content/uploads/2017/03/sdfgge.jpg");*/
+            background-position: left top;
+            background-size: auto;
+            background-repeat: repeat;
+            background-attachment: scroll;
+        }
+    </style>
+    <link rel="icon" href="/theme/img/cropped-avatar-32x32.png" sizes="32x32" />
+    <link rel="icon" href="/theme/img/cropped-avatar-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed" href="/theme/img/cropped-avatar-180x180.png" />
+    <meta name="msapplication-TileImage" content="/theme/img/cropped-avatar-270x270.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/atom-one-light.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css">
+
+    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+</head>
+
+<body>
+    <header class="mod-head">
+        <h1 class="mod-head__title"><a href="http://www.llnhhy.com">Xiaojie Luo</a></h1>
+        <div class="mod-head__logo">
+            <a href="http://www.llnhhy.com" title="Xiaojie Luo"><img class="avatar" width="26" height="26" src="/theme/img/avatar.png"></a>
+        </div>
+        <nav class="mod-head__nav">
+            <ul id="menu-%e8%8f%9c%e5%8d%951" class="mod-head__ul">
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14"><a href="/">Home</a><span>·</span></li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14"><a href="/archives.html">Archive</a></li>
+            </ul>
+        </nav>
+        <a id="right-panel-link" href="#right-panel"><i class="iconfont icon-fenlei"></i></a>
+        <div id="right-panel" class="panel">
+            <h3 class="rightnavh3">Menu</h3>
+            <ul id="menu-%e8%8f%9c%e5%8d%951-1" class="ymod-head">
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{link[1]}">Home</a></li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{link[1]}">Archive</a></li>
+            </ul> <button id="close-panel-bt">X Close</button>
+        </div>
+        <script src="/theme/js/slider.js"></script>
+        <script>
+            $('#right-panel-link').panelslider({
+                side: 'right',
+                duration: 200
+            });
+            $('#close-panel-bt').click(function() {
+                $.panelslider.close();
+            });
+        </script>
+        <hr />
+    </header>
+        <article class="mod-post mod-post__type-post">
+        <header>
+            <h1 class="mod-post__title">数据类型校验</h1>
+        </header>
+        <div class="mod-post__entry wzulli">
+            <p>数据类型校验</p>
+<p>不进行校验， 只是将输入值转换成规定的类型</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>func</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>required</td>
+<td>是否必须</td>
+</tr>
+<tr>
+<td>default</td>
+<td>默认值</td>
+</tr>
+<tr>
+<td>format</td>
+<td>数据格式化， 适合于 String, int, float, datetime</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><span class="n">StringField</span><span class="p">()</span>
+<span class="n">IntField</span><span class="p">(</span><span class="n">required</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">FloatField</span><span class="p">()</span>
+<span class="n">DictField</span><span class="p">(</span> <span class="p">{</span> <span class="n">IntField</span><span class="p">():</span> <span class="p">[</span><span class="n">IntField</span><span class="p">(),</span> <span class="n">FloatField</span><span class="p">()]</span> <span class="p">})</span>
+<span class="n">ListField</span><span class="p">([</span><span class="n">IntField</span><span class="p">,</span> <span class="n">FloatField</span><span class="p">])</span>
+<span class="n">SetField</span><span class="p">()</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">User</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">()</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">IntField</span><span class="p">()</span>
+    <span class="n">birthday</span> <span class="o">=</span> <span class="n">DatetimeField</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">({</span><span class="s1">&#39;title&#39;</span><span class="p">:</span><span class="s1">&#39;Hello&#39;</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="s1">&#39;12&#39;</span><span class="p">})</span>
+</pre></div>
+        </div>
+        <div class="mod-post__meta">
+            <div>
+                <div>— <span>Published Date: <time datetime="2018-20-Feb">2018-20-Feb</time></span>
+                </div>
+                <div>— Tags: <span class="mod_tag">
+</span>
+                </div>
+            </div>
+        </div>
+    </article>
+    <section class="mod-comment">
+                <div style="text-align:center;">
+                  <button class="load-disqus" id="load-disqus" onclick="disqus.load();">加载 Disqus 评论</button>
+                </div>
+                <div id="disqus_thread"></div>
+
+        <div class="navigation">
+            <div class="alignleft"></div>
+            <div class="alignright"></div>
+        </div>
+        <!-- #respond -->
+    </section>
+
+    <footer class="mod-footer" role="contentinfo" id="footer_in">
+            <hr />
+            <div class="copyright">&copy; 2017-2018 Powered by <a href="https://blog.getpelican.com/" target="_blank">Pelican</a> Theme &copy; <a href="https://github.com/xiaojieluo" target="_blank">LuoXiaojie</a></div>
+    </footer>
+    <script>
+        POWERMODE.colorful = true; // ture 为启用礼花特效
+        POWERMODE.shake = false; // false 为禁用震动特效
+        document.body.addEventListener('input', POWERMODE);
+    </script>
+    <script type='text/javascript' src='/theme/js/comment-reply.min.js?ver=4.8'></script>
+    <script type='text/javascript' src='/theme/js/jquery.js?ver=1.12.4'></script>
+    <script type='text/javascript' src='/theme/js/jquery-migrate.min.js?ver=1.4.1'></script>
+
+    <script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+          $('.highlight').each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+    </script>
+
+    <script>
+    var disqus_config = function () {
+            this.page.url = "http://www.llnhhy.com/posts/shu-ju-lei-xing-xiao-yan.html    ";  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = "数据类型校验"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    var disqus = {
+      load : function disqus(){
+          if(typeof DISQUS !== 'object') {
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://llnhhy.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+            $('#load-disqus').remove(); ///加载后移除按钮
+          }
+      }
+    }
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-92533917-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+</body>
+
+</html>
