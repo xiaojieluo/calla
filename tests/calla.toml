@@ -1,0 +1,5 @@
+title = "我的博客小屋"
+
+[date_format]
+en_us = "%Y-%m-%d"
+zh_cn = "%Y-%m-%d %H:%I:%S"
