@@ -3,6 +3,8 @@ import sys, os
 from calla import make_app
 from calla.config import Config
 from calla.process import start_thread, log_worker
+from calla.model import db, Setting, Log, db_path
+# here = os.path.abspath(os.path.dirname(__file__))
 
 
 def parse_args(args):
@@ -15,11 +17,19 @@ def parse_args(args):
     return args
 
 def init():
-    ''' 初始化工作目录'''
-    pass
+    ''' 初始化工作目录
+    只有有需要时才执行
+    '''
+    db.connect()
+    if not os.path.exists(db_path):
+        model_list = [Setting, Log]
+        db.create_tables(model_list)
+        for model in model_list:
+            print(model.init())
 
 def main():
     '''enter'''
+    init()
     args = parse_args(sys.argv[1:])
     app = make_app(args.config)
     config = Config()
