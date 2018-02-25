@@ -17,6 +17,7 @@ class Config(dict):
     attribute only read , cannot modified
     '''
     config_file = None
+    _path = None
 
     def get(self, key, default = None):
         if key in self:
@@ -54,6 +55,8 @@ class Config(dict):
     @classmethod
     def load(cls, path):
         ''' 静态变量， 从 toml 文件中加载配置并注入 Config 类中。 '''
+        # if path is None and cls._path:
+        #     path = cls._path
         config = toml.load(path, cls)
         instance = cls()
         instance.update(config)
@@ -62,7 +65,7 @@ class Config(dict):
 
     @classmethod
     def monkey_patch(cls, path):
-        cls.config_file = path
+        cls._path = path
 
     def __delattr__(self, key):
         return self.__delitem__(key)
@@ -76,9 +79,9 @@ def make_config(path = None):
     并且用用户自定义配置覆盖默认配置
     '''
     if path is None:
-        path = os.path.join(os.getcwd(), 'calla.toml')
-    _config = Config.load(path)
-    config = _config
-    # workname = os.path.dirname(config._path)
-    # config.path = os.path.join(workname, config.path)
+        if Config._path is None:
+            path = os.path.join(os.getcwd(), 'calla.toml')
+        else:
+            path = Config._path
+    config = Config.load(path)
     return config
