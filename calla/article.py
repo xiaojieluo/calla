@@ -2,9 +2,8 @@ import markdown
 import codecs
 import re, os
 from calla.utils import handle_duplicate_name
-from calla.config import make_config
 
-config = make_config()
+config = {}
 
 class InterfaceNotImpleteException(Exception):
     pass
@@ -28,7 +27,6 @@ class Article(object):
     传入一片文章， 读取出 metadata
     '''
     def __init__(self, path):
-        # print("Path:{}".format(path))
         self.path = path
         self.parser = self.make_parser()
         self._text = None # list
