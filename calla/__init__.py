@@ -1,5 +1,5 @@
 from flask import Flask
-from calla.config import Config
+from calla.config import make_config
 from flask_cors import CORS
 
 def make_app(conf_path = None):
@@ -7,10 +7,8 @@ def make_app(conf_path = None):
     Args:
         从命令行指定 config 的文件位置
     '''
-    if conf_path:
-        Config.monkey_patch(conf_path)
-
-    config = Config()
+    config = make_config()
+    
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'Security'
     app.debug = config.server_debug or True
