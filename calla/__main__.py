@@ -3,7 +3,7 @@ import sys, os
 from calla import make_app
 from calla.config import Config
 from calla.process import start_thread, log_worker
-from calla.model import db, Setting, Log, db_path
+from calla.model import db, Setting, Log, db_path, Article
 # here = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -16,27 +16,32 @@ def parse_args(args):
     args = parser.parse_args(args)
     return args
 
-def init():
+def init(replace = False):
     ''' 初始化工作目录
     只有有需要时才执行
+    Args:
+        replace 为 True 时强制覆盖数据库， 调试用
     '''
     db.connect()
-    if not os.path.exists(db_path):
-        model_list = [Setting, Log]
+    if  replace is True or not os.path.exists(db_path):
+        model_list = [Article, Log]
         db.create_tables(model_list)
         for model in model_list:
+            print(model)
             print(model.init())
+
 
 def main():
     '''enter'''
-    init()
+    # init()
     args = parse_args(sys.argv[1:])
-    app = make_app(args.config)
-    config = Config()
+    Config.monkey_patch(args.config)
+
+    app = make_app()
     # 开启 log 线程
     start_thread(log_worker, daemon = True)
     app.run(
-        port=args.port or config.server_port,
+        port=args.port
         )
 
 
