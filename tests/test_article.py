@@ -6,7 +6,7 @@ from calla.article import MarkdownArticle, article_factory, Article, InterfaceNo
 import pytest
 import os
 from calla.utils import iterdir
-from calla.model import Article
+from calla.model import Article, Meta
 import time
 import json
 from faker import Faker
@@ -29,15 +29,21 @@ def init_article_database():
                 'meta': { 'bank': fake.iban(), 'company': fake.company() }
             }
             articles.append(article)
+
     for item in articles:
-        Article.create(**item)
+        metas = item.pop('meta')
+        article = Article(**item)
+        article.save()
+        for key, value in metas.items():
+            meta = Meta.create(article = article, key = key, value = value)
+            meta.save()
 
-init_article_database()
-articles = list(Article.find_all())
-
-@pytest.fixture(params = articles)
-def article(request):
-    return request.param
+# init_article_database()
+# articles = list(Article.find_all())
+#
+# @pytest.fixture(params = articles)
+# def article(request):
+#     return request.param
 
 def test_article_save():
     article = Article(title = 'Hello', meta = {'test_meta': True})
@@ -58,11 +64,22 @@ def test_get_article_attribute(article):
     assert article.title is not None
     assert article.created_at is not None
 
-def test_article_meta_is_dict(article):
+def test_article_meta(article):
     meta = article.meta
-    assert isinstance(meta, dict)
+    for meta in article.meta:
+        assert meta.key
 
 def test_article_tags_is_list(article):
     tags = article.tags
     tags = tags.split(',')
     assert isinstance(tags, list)
+
+def test_article_foreign_meta():
+    article = Article(title = 'test_meta')
+    article.save()
+    meta = Meta(article = article, key = 'slug', value = 'hahha')
+    meta.save()
+
+    assert meta.key == 'slug'
+
+    test_article_delete(article)
