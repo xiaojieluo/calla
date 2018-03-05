@@ -16,7 +16,6 @@ class Config(dict):
     ''' config 类
     attribute only read , cannot modified
     '''
-    config_file = None
     _path = None
 
     def get(self, key, default = None):
@@ -74,14 +73,23 @@ class Config(dict):
         if key in self:
             self.pop(key)
 
-def make_config(path = None):
+def make_config(path = None, raw = False):
     ''' 根据配置文件组装 config
     并且用用户自定义配置覆盖默认配置
+    raw:
+        是否只返回用户定义的配置， 默认 False
     '''
+    if raw is False:
+        default_conf_path = os.path.join(here, 'config/default.toml')
+        default_conf = Config.load(default_conf_path)
+    else:
+        default_conf = {}
+
     if path is None:
         if Config._path is None:
             path = os.path.join(os.getcwd(), 'calla.toml')
         else:
             path = Config._path
     config = Config.load(path)
-    return config
+    default_conf.update(**config)
+    return default_conf
