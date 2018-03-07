@@ -6,7 +6,6 @@ import importlib
 import pprint
 import json
 import toml
-from calla.model import Setting
 import types
 
 here = os.path.abspath(os.path.dirname(__file__))

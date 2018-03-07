@@ -3,9 +3,9 @@ import sys, os
 from calla import make_app
 from calla.config import Config
 from calla.process import start_thread, log_worker
-from calla.model import db, Setting, Log, db_path, Article
-# here = os.path.abspath(os.path.dirname(__file__))
-
+from calla.model import db, Log, db_path, Article, Meta, Tag, Author
+from flask import current_app
+app = current_app
 
 def parse_args(args):
     ''' parse args'''
@@ -22,18 +22,20 @@ def init(replace = False):
     Args:
         replace 为 True 时强制覆盖数据库， 调试用
     '''
-    db.connect()
-    if  replace is True or not os.path.exists(db_path):
-        model_list = [Article, Log]
+
+    # if replace is True or
+    if not os.path.exists(db_path):
+        print("创建数据库。。。")
+        model_list = [Article, Log, Meta, Tag, Author]
         db.create_tables(model_list)
         for model in model_list:
-            print(model)
-            print(model.init())
+            model.init()
 
+    # db.connect()
 
 def main():
     '''enter'''
-    # init()
+    init()
     args = parse_args(sys.argv[1:])
     Config.monkey_patch(args.config)
 
@@ -43,7 +45,3 @@ def main():
     app.run(
         port=args.port
         )
-
-
-if __name__ == '__main__':
-    main()
