@@ -1,6 +1,5 @@
 import sys, os
 import re
-from redbaron import RedBaron
 from unipath import Path
 import tempfile
 import importlib
@@ -17,18 +16,36 @@ class Config(dict):
     attribute only read , cannot modified
     '''
     _path = None
+    # 默认配置， 实例化之后创建
+    # _default = None
+    # TODO
+    # 暂时无法像下面这样使用， 待修复
+    # config.get('date_format').get('zh_cn')
 
     def get(self, key, default = None):
         if key in self:
             data = self[key]
-            # 当 self[key] 是字典的时候， 返回本类实例
-            if isinstance(data, dict):
-                data = self.__class__(data)
-            return data
-        return default
+            # data = super().__getitem__(key)
+        elif key in self._default:
+            data = self._default.get(key)
+        else:
+            data = default
+
+        if isinstance(data, dict):
+            data = self.__class__(data)
+        return data
+        # if data:
+        #     if isinstance(data, dict):
+        #         data = self.__class__(data)
+        #     return data
+        # return default
 
     def __getattr__(self, key):
         return self.get(key)
+
+    # def __getitem__(self, key):
+    #     if key in self._default:
+    #         return super().__getitem__(key)
 
     def set(self, key, value):
         self.update({key: value})
@@ -38,8 +55,9 @@ class Config(dict):
 
     def save(self):
         ''' 保存配置到 self._path '''
+        data = {k: v for k, v in self.items() if k[0] != '_'}
         with open(self._path, 'w') as fp:
-            toml.dump(self, fp)
+            toml.dump(data, fp)
         return True
 
     def delete(self, key):
@@ -79,17 +97,15 @@ def make_config(path = None, raw = False):
     raw:
         是否只返回用户定义的配置， 默认 False
     '''
-    if raw is False:
-        default_conf_path = os.path.join(here, 'config/default.toml')
-        default_conf = Config.load(default_conf_path)
-    else:
-        default_conf = {}
-
     if path is None:
         if Config._path is None:
             path = os.path.join(os.getcwd(), 'calla.toml')
         else:
             path = Config._path
+
     config = Config.load(path)
-    default_conf.update(**config)
-    return default_conf
+    # 注入默认配置
+    default_conf_path = os.path.join(here, 'config/default.toml')
+    config._default = Config.load(default_conf_path)
+
+    return config
