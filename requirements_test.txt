@@ -27,6 +27,7 @@ psutil==5.4.3
 py==1.5.2
 Pygments==2.2.0
 pytest==3.4.1
+pytest-cov==2.5.1
 python-dateutil==2.6.1
 pytz==2018.3
 requests==2.18.4
