@@ -5,6 +5,7 @@ __pycache__/
 
 llnhhy/
 /output
+calla.db
 
 # C extensions
 *.so
