@@ -1,5 +1,5 @@
-title = "我的博客小屋"
+title = "我的个人博客"
+theme = "default"
 
 [date_format]
 en_us = "%Y-%m-%d"
-zh_cn = "%Y-%m-%d %H:%I:%S"

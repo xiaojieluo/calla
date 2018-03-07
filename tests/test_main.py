@@ -1,4 +1,4 @@
-from pelican_manager import __main__ as main
+from calla import __main__ as main
 
 def test_parse_args():
     args = ['-p', '4000']

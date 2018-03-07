@@ -1,5 +1,5 @@
 import pytest
-from pelican_manager.utils import iterdir
+from calla.utils import iterdir
 import os, sys
 import types
 

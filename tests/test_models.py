@@ -1,4 +1,4 @@
-from pelican_manager.forms import ArticleForm, SettingForm
+from calla.forms import ArticleForm, SettingForm
 from wtforms import StringField, IntegerField, Field
 
 def test_article_model():

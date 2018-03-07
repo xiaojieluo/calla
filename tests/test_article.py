@@ -22,28 +22,30 @@ def init_article_database():
         for _ in range(10):
             article = {
                 'title':'',
-                'author': fake.name(),
+                'authors': fake.name(),
                 'tags': ','.join([fake.job() * 3]),
-                'text': fake.text(),
+                'content': fake.text(),
                 'updated_at': fake.time(),
-                'meta': { 'bank': fake.iban(), 'company': fake.company() }
+                'bank': fake.iban(),
+                'company': fake.company()
             }
             articles.append(article)
 
     for item in articles:
-        metas = item.pop('meta')
-        article = Article(**item)
-        article.save()
-        for key, value in metas.items():
-            meta = Meta.create(article = article, key = key, value = value)
-            meta.save()
+        Article.create(**item)
+        # aid = Article.insert(**item).execute()
+        # authors = item.pop('authors')
+        # for key, value in metas.items():
+        #     Meta.insert(article = aid, key = key, value = value).execute()
+        # for author in authors:
+        #     Author.insert(article = aid, name = author).execute()
 
-# init_article_database()
-# articles = list(Article.find_all())
-#
-# @pytest.fixture(params = articles)
-# def article(request):
-#     return request.param
+init_article_database()
+articles = list(Article.find_all())
+
+@pytest.fixture(params = articles)
+def article(request):
+    return request.param
 
 def test_article_save():
     article = Article(title = 'Hello', meta = {'test_meta': True})
@@ -70,8 +72,7 @@ def test_article_meta(article):
         assert meta.key
 
 def test_article_tags_is_list(article):
-    tags = article.tags
-    tags = tags.split(',')
+    tags = article.to_dict()['tags']
     assert isinstance(tags, list)
 
 def test_article_foreign_meta():

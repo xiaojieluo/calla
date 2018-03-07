@@ -1,3 +1,6 @@
-from pelican_manager.config import Config
+from calla.config import Config
+from calla.__main__ import init
 
-Config.monkey_patch('tests/pelicanconf.py')
+# Config.monkey_patch('tests/pelicanconf.py')
+
+init(True)

@@ -1,4 +1,4 @@
-from pelican_manager import __version__ as version
+from calla import __version__ as version
 
 def test_version():
     attrs = ['__title__', '__description__', '__url__', '__version__',
