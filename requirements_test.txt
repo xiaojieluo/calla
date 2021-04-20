@@ -24,7 +24,7 @@ peewee==3.0.19
 pelican==3.7.1
 pluggy==0.6.0
 psutil==5.4.3
-py==1.5.2
+py==1.10.0
 Pygments==2.2.0
 pytest==3.4.1
 pytest-cov==2.5.1
