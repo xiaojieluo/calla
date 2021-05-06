@@ -11,7 +11,7 @@ docutils==0.14
 Faker==0.8.11
 feedgenerator==1.9
 Flask==0.12.2
-Flask-Cors==3.0.3
+Flask-Cors==3.0.9
 flask-restplus==0.10.1
 Flask-WTF==0.14.2
 idna==2.6
