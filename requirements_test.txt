@@ -38,6 +38,6 @@ text-unidecode==1.2
 toml==0.9.4
 Unidecode==1.0.22
 Unipath==1.1
-urllib3==1.22
+urllib3==1.26.5
 Werkzeug==0.14.1
 WTForms==2.1
